@@ -1,12 +1,10 @@
-import com.alibaba.fastjson.JSON;
-import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
 import java.util.Properties;
 
 /**
  * Sparkjdbc
+ * 可以直接操作关系型数据库
  * 测试通过
  * */
 public class Sparkjdbc {

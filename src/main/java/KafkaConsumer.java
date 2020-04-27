@@ -11,6 +11,9 @@ import org.apache.spark.streaming.kafka010.LocationStrategies;
 
 import java.util.*;
 
+/**
+ * 测试通过
+ */
 public class KafkaConsumer {
     public static void main(String[] args) throws InterruptedException {
         String brokers = "hadoop:9092";
@@ -34,7 +37,6 @@ public class KafkaConsumer {
 //        offsets.put(new TopicPartition("topic1", 0), 2L);
         Collection<String> list = new ArrayList<String>();
         list.add(topics);
-        //通过KafkaUtils.createDirectStream(...)获得kafka数据，kafka相关参数由kafkaParams指定
         JavaInputDStream<ConsumerRecord<Object,Object>> lines = KafkaUtils.createDirectStream(
                 ssc,
                 LocationStrategies.PreferConsistent(),
@@ -61,5 +63,6 @@ public class KafkaConsumer {
         ssc.awaitTermination();
         ssc.close();
         spark.close();
+
     }
 }
