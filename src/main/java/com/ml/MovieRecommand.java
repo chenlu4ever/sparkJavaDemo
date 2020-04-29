@@ -23,7 +23,7 @@ public class MovieRecommand {
                 .master("local")
                 .getOrCreate();
         JavaSparkContext javaSparkContext = new JavaSparkContext(spark.sparkContext());
-        javaSparkContext.setLogLevel();
+        javaSparkContext.setLogLevel("WARN");
 
         String fileUrl = "D:/IdeaProjects/sparkJavaDemo/src/main/resources/mlmovie/";
 
