@@ -96,17 +96,19 @@ public class MovieRecommand {
 
 
         // 为训练设置参数 每种参数设置2个值，三层for循环，一共进行8次训练
+        //隐藏因子:根据数据的分散情况测试出来的值，特征向量纬度，如果这个值太小拟合的就会不够，误差就很大；如果这个值很大，就会导致模型大泛化能力较差；
+        // 所以就需要自己把握一个度了，一般情况下10～1000都是可以的；
         List<Integer> ranks = new ArrayList<Integer>();
         ranks.add(8);
         ranks.add(22);
-
-        List<Double> lambdas = new ArrayList<Double>();
-        lambdas.add(0.1);
-        lambdas.add(10.0);
-
+        //迭代次数这个设置的越大肯定是越精确，但是设置的越大也就意味着越耗时；
         List<Integer> iters = new ArrayList<Integer>();
         iters.add(5);
         iters.add(7);
+        //ALS中的正则化参数
+        List<Double> lambdas = new ArrayList<Double>();
+        lambdas.add(0.1);
+        lambdas.add(10.0);
 
         // 初始化最好的模型参数
         MatrixFactorizationModel bestModel = null;
