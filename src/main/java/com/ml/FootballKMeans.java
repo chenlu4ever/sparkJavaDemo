@@ -3,14 +3,12 @@ package com.ml;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.VoidFunction;
 import org.apache.spark.mllib.clustering.KMeans;
+
 import org.apache.spark.mllib.clustering.KMeansModel;
 import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.linalg.Vectors;
 import org.apache.spark.sql.SparkSession;
-
-import java.util.Arrays;
 
 /**
  * KMeans.train 参数：
@@ -32,9 +30,9 @@ public class FootballKMeans {
 
         String fileUrl = "D:/IdeaProjects/sparkJavaDemo/src/main/resources/mlfootball/";
 
-        JavaRDD<String> data = javaSparkContext.textFile(fileUrl + "football.dat");
+        JavaRDD<String> javaRDDdata = javaSparkContext.textFile(fileUrl + "football.dat");
 
-        final JavaRDD<Vector> dataV = data.map(new Function<String, Vector>() {
+        JavaRDD<Vector> dataV = javaRDDdata.map(new Function<String, Vector>() {
             public Vector call(String s) throws Exception {
                 System.out.println("s = " + s);
                 String[] fields = s.split(",");
@@ -45,18 +43,31 @@ public class FootballKMeans {
                 for (int i = 0; i < fields.length; i++) {
                     ds[i] = Double.valueOf(fields[i]);
                 }
+                //Vectors.dense密集向量
                 return Vectors.dense(ds);
             }
         }).cache();
-        final KMeansModel model = KMeans.train(dataV.rdd(), 3, 5);
+
+        KMeansModel model = KMeans.train(dataV.rdd(), 3, 100);
         System.out.println("clusterCenters is: " + model.clusterCenters());
 
+        //KMeansModel类也提供了计算集合内误差平方和（Within Set Sum of Squared Error, WSSSE）的方法来度量聚类的有效性
+        //在真实k值未知的情况下，该值的变化可以作为选取合适k值的一个重要参考：输出本次聚类操作的收敛性，此值越低越好。
         model.computeCost(dataV.rdd());
 
-        dataV.foreach(new VoidFunction<Vector>() {
-            public void call(Vector vector) throws Exception {
-                System.out.println(String.valueOf(vector)+"------------"+ model.predict(vector));
-            }
-        });
+//        // 使用原数据进行交叉评估预测
+//        JavaRDD<String> crossRes = javaRDDdata.map(new Function<Vector, String>() {
+//            public String call(Vector v1) throws Exception {
+//                int a = model.predict(v1);
+//                return v1.toString() + "==>" + a;
+//            }
+//        });
+
+//        // 打印预测结果
+//        crossRes.foreach(new VoidFunction<String>() {
+//            public void call(String s) throws Exception {
+//                System.out.println(s);
+//            }
+//        });
     }
 }
