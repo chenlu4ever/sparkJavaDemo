@@ -13,12 +13,16 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
-public class Mllibsvm {
+/**
+ *StandardScaler+PCA+LinearSVC
+ * 二分类
+ */
+public class MlLinearSVC {
     public static void main(String[] args) {
 //        已配置环境变量HADOOP_HOME
 //        System.setProperty("hadoop.home.dir", "D:\\software\\hadoop3.0.0");
 
-        SparkSession spark = SparkSession.builder().appName("sparkSQL")
+        SparkSession spark = SparkSession.builder().appName("Mllibsvm")
                 .master("local")
                 .getOrCreate();
 //        JavaSparkContext javaSparkContext = new JavaSparkContext(spark.sparkContext());

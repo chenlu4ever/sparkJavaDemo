@@ -22,7 +22,7 @@ import org.apache.spark.sql.SparkSession;
  */
 public class FootballKMeans {
     public static void main(String[] args) {
-        SparkSession spark = SparkSession.builder().appName("sparkSQL")
+        SparkSession spark = SparkSession.builder().appName("FootballKMeans")
                 .master("local")
                 .getOrCreate();
         JavaSparkContext javaSparkContext = new JavaSparkContext(spark.sparkContext());

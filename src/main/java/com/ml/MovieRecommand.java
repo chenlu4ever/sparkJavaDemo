@@ -17,9 +17,12 @@ import scala.Tuple3;
 import java.util.ArrayList;
 import java.util.List;
 
+/***
+ * 电影打分推荐
+ */
 public class MovieRecommand {
     public static void main(String[] args) {
-        SparkSession spark = SparkSession.builder().appName("sparkSQL")
+        SparkSession spark = SparkSession.builder().appName("MovieRecommand")
                 .master("local")
                 .getOrCreate();
         JavaSparkContext javaSparkContext = new JavaSparkContext(spark.sparkContext());
