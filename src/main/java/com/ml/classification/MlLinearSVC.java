@@ -1,4 +1,4 @@
-package com.ml;
+package com.ml.classification;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -14,6 +14,7 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
 /**
+ * 分类：线性支持向量机
  *StandardScaler+PCA+LinearSVC
  * 二分类
  */
@@ -34,11 +35,7 @@ public class MlLinearSVC {
         String url = "src/main/resources/mldemo/sample_libsvm_data.txt";//多维特征
         Dataset<Row> dataset  = spark.read().format("libsvm").load(url);
         System.out.println("原始数据：----------------------------");
-        dataset.foreach(new ForeachFunction<Row>() {
-            public void call(Row row) throws Exception {
-                System.out.println("row = " + row.json());
-            }
-        });
+        dataset.show(10,false);
         System.out.println("");
         System.out.println("");
 
@@ -53,11 +50,7 @@ public class MlLinearSVC {
 //        Dataset<Row> scalerData = scaler.transform(dataset).select("label", "scaledFeatures").toDF("label","features");
         Dataset<Row> scalerData = scaler.transform(dataset);
         System.out.println("归一化数据：----------------------------");
-        scalerData.foreach(new ForeachFunction<Row>() {
-            public void call(Row row) throws Exception {
-                System.out.println("row = " + row.json());
-            }
-        });
+        scalerData.show(10,false);
         System.out.println("");
         System.out.println("");
 
@@ -71,11 +64,7 @@ public class MlLinearSVC {
         //transform 数据，生成主成分特征
         Dataset<Row> pcaResult = pca.transform(scalerData).select("label","pcaFeatures").toDF("label","features");
         System.out.println("PCA主成分分析数据：----------------------------");
-        pcaResult.foreach(new ForeachFunction<Row>() {
-            public void call(Row row) throws Exception {
-                System.out.println("row = " + row.json());
-            }
-        });
+        pcaResult.show(10,false);
         System.out.println("");
         System.out.println("");
 
@@ -120,11 +109,7 @@ public class MlLinearSVC {
         Dataset<Row> predictions = model.transform(testData).select("prediction","label","features");
 
         System.out.println("predictions数据：----------------------------");
-        predictions.foreach(new ForeachFunction<Row>() {
-            public void call(Row row) throws Exception {
-                System.out.println("row = " + row.json());
-            }
-        });
+        predictions.show(10,false);
         System.out.println("");
         System.out.println("");
 

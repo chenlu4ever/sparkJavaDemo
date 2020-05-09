@@ -1,4 +1,4 @@
-package com.ml;
+package com.ml.collaborativeFiltering;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /***
+ * 协同过滤算法
  * 电影打分推荐
  */
 public class MovieRecommand {

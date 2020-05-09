@@ -1,4 +1,4 @@
-package com.ml;
+package com.ml.clustering;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -11,6 +11,11 @@ import org.apache.spark.mllib.linalg.Vectors;
 import org.apache.spark.sql.SparkSession;
 
 /**
+ * 聚类-Kmeans(非监督学习)
+ *
+ * 大致原理：随机选取一组质心K，按照到各个质心最短距离分类。多次迭代。
+ * （该方法只能解决凸形聚类，凹形如半月，则不适合）
+ *
  * KMeans.train 参数：
  * k 表示期望的聚类的个数。
  * maxInterations 表示方法单次运行最大的迭代次数。

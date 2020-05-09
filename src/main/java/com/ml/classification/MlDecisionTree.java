@@ -1,4 +1,4 @@
-package com.ml;
+package com.ml.classification;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -14,9 +14,9 @@ import org.apache.spark.sql.SparkSession;
 
 /**
  * 决策树分类(支持多种分类)
- *StringIndexer+VectorIndexer+DecisionTreeClassifier+IndexToString
+ * StringIndexer+VectorIndexer+DecisionTreeClassifier+IndexToString
  */
-public class MlDecisonTree {
+public class MlDecisionTree {
     public static void main(String[] args) {
         SparkSession spark = SparkSession.builder().appName("ADPrediction")
                 .master("local")
@@ -63,10 +63,9 @@ public class MlDecisonTree {
         Dataset<Row> testData=dsarray[1];
 
         // Train a DecisionTree model. 决策树
-        DecisionTreeClassifier dt = new DecisionTreeClassifier()
+        DecisionTreeClassifier decisionTree = new DecisionTreeClassifier()
                 .setLabelCol("indexedLabel")
                 .setFeaturesCol("indexedFeatures");
-
 
         // Convert indexed labels back to original labels.
         //相应的，有StringIndexer，就应该有IndexToString。在应用StringIndexer对labels进行重新编号后，带着这些编号后的label对数据进行了训练，
@@ -78,7 +77,7 @@ public class MlDecisonTree {
 
         // Chain indexers and tree in a Pipeline.
         Pipeline pipeline = new Pipeline()
-                .setStages(new PipelineStage[]{labelIndexer, featureIndexer, dt, labelConverter});
+                .setStages(new PipelineStage[]{labelIndexer, featureIndexer, decisionTree, labelConverter});
 
         // Train model. This also runs the indexers.
         PipelineModel model = pipeline.fit(trainingData);
