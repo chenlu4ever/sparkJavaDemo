@@ -16,7 +16,7 @@ public class MlNaiveBayes {
 //        已配置环境变量HADOOP_HOME
 //        System.setProperty("hadoop.home.dir", "D:\\software\\hadoop3.0.0");
 
-        SparkSession spark = SparkSession.builder().appName("Mllibsvm")
+        SparkSession spark = SparkSession.builder().appName("MlNaiveBayes")
                 .master("local")
                 .getOrCreate();
 //        JavaSparkContext javaSparkContext = new JavaSparkContext(spark.sparkContext());
@@ -27,6 +27,7 @@ public class MlNaiveBayes {
 //        String url = "src/main/resources/mldemo/mlscaler.txt";//一维特征
         String url = "src/main/resources/mldemo/sample_libsvm_data.txt";//多维特征
         Dataset<Row> dataset  = spark.read().format("libsvm").load(url);
+
         System.out.println("原始数据：----------------------------");
         dataset.show(10,false);
         System.out.println("");
@@ -38,6 +39,9 @@ public class MlNaiveBayes {
         Dataset<Row> trainingData =dsarray[0];
         Dataset<Row> testData=dsarray[1];
 
+        /*
+        * ModelType 目前只有两种：multinomial(多项式，默认)和bernoulli(伯努利)
+         */
         NaiveBayes naiveBayes= new NaiveBayes().setSmoothing(1.0).setModelType("multinomial");
         Dataset<Row> predictions  = naiveBayes.fit(trainingData).transform(testData);
 

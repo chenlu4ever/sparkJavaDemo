@@ -40,6 +40,7 @@ public class MlLinearSVC {
         System.out.println("");
 
         // 数据预处理之标准归一化：标准化数据=(原数据-均值)/标准差
+        //还有MinMaxScaler、MaxAbsScaler、Normalizer
         StandardScalerModel scaler = new StandardScaler()
                .setInputCol("features")
                .setOutputCol("scaledFeatures")
